@@ -6,8 +6,8 @@ from PIL import Image
 
 #1772 / 11
 
-NB_W = 20
-NB_H = 12
+NB_W = 40
+NB_H = 22
 
 GREEN = '\033[92m'
 BLUE = '\033[94m'

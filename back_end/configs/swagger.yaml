@@ -27,4 +27,32 @@ paths:
           schema:
             type: array
             items:
-              type: integer
+              type: array
+              items:
+                type: integer
+       
+  /analyse_location:
+    get:
+      operationId: app.core.analyze_location
+      summary: Endpoint to receive location and return bivouac zone
+      parameters:
+      - in: query
+        name: long
+        type: string
+        description: Longitude
+      - in: query
+        name: lat
+        type: string
+        description: Latitude
+      produces:
+      - text/plain
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              type: array
+              items:
+                type: integer
+          

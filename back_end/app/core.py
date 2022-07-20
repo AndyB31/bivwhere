@@ -14,7 +14,12 @@ analysis = { #TODO: add couverture primaire
     "map_protected": process.analyse_protected,
     "map_slope_over_30": process.analyse_slope,
     "map_hiking_trail": process.analyse_hiking,
+    "map_vector_25": process.analyse_primaire,
 }
+
+def analyze_location(long, lat):
+    e, n = process.conversion_loc(long, lat)
+    return analyse_coords(e, n)
 
 def analyse_coords(e, n):
     if not os.path.isdir(res_dir):
@@ -27,7 +32,8 @@ def analyse_coords(e, n):
         res[map_type] = analysis[map_type](os.path.join(path, map_type))
 
     print(res)
-    return [0, 1, 0, 1]
+    bivouac_zone = process.analyze_bivouac_capacity(res["map_hiking_trail"], res["map_protected"], res["map_vector_25"], res["map_slope_over_30"])
+    return bivouac_zone
 
 
 def main():
