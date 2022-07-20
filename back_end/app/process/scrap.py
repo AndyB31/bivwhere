@@ -3,15 +3,11 @@ import time
 import asyncio
 from pyppeteer import launch
 
-async def main():
+async def scrap(dirname: str, e: str, n: str):
 
-    e = "2608084.69"
-    n = "1173727.56"
-
-    dirname = f"E{e}N{n}"
     os.mkdir(dirname)
 
-    browser = await launch()
+    browser = await launch(options={'args': ['--no-sandbox']})
     page = await browser.newPage()
     await page.goto(f'https://map.geo.admin.ch/?lang=en&topic=swisstopo&bgLayer=ch.swisstopo.pixelkarte-farbe&layers_opacity=0.75&E={e}&N={n}&zoom=8&catalogNodes=1436', {"waitUntil" : "networkidle0"})
     
@@ -128,4 +124,7 @@ async def main():
     
     await browser.close()
 
-asyncio.get_event_loop().run_until_complete(main())
+def scrap_image(res_dir, e: str, n: str):
+  dirname = f"E{e}N{n}"
+  asyncio.get_event_loop().run_until_complete(scrap(os.path.join(res_dir, dirname), e, n))
+  return dirname

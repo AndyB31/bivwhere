@@ -18,23 +18,6 @@ NO_TRAIL = 0
 NEAR_TRAIL = 1
 TRAIL = 2
 
-def crop(im, path, height, width, k, page):
-    imgwidth, imgheight = im.size
-    x = 0
-    for i in range(0,imgheight,height):
-        y = 0
-        for j in range(0,imgwidth,width):
-            box = (j, i, j+width, i+height)
-            o = im.crop(box)
-            try:
-                # o = a.crop(area)
-                o.save(os.path.join(path, f"{page}", f"IMG-{x}-{y}.png"))
-            except Exception as e:
-                print(e)
-            k +=1
-            y += 1
-        x += 1
-
 NB_PX_RANDO = 6
 
 # rando rgba(191,160,49,255) +/-10
@@ -72,7 +55,7 @@ def check_all_pix(img):
 
     return is_rando_box
 
-def human_readable_display(img_arr):
+def human_readable_display_h(img_arr):
     for line in img_arr:
         for box in line:
             color = RED
@@ -110,33 +93,16 @@ def check_near_trail(img_arr):
             img_arr[i][j] = 0 if img_arr[i][j] < 0 else img_arr[i][j]
 
 
-def divide_image(input: str):
-    name = input.split('/')[-1].split('.')[0]
-    with Image.open(input) as im:
-        imgwidth, imgheight = im.size
-        lilw = int(imgwidth / NB_W)
-        lilh = int(imgheight / NB_H)
-        isExist = os.path.exists(f"./output/{name}")
-        if not isExist:
-            os.makedirs(f"./output/{name}")
-        crop(im, "./output/", lilh, lilw, 0, name)
-
+def analyse_hiking(path: str):
     lil_img = []
     for i in range(NB_H):
         lil_img.append([])
         for j in range(NB_W):
-            with Image.open(f"./output/{name}/IMG-{i}-{j}.png") as img:
+            with Image.open(os.path.join(path, f"IMG-{i}-{j}.png")) as img:
                 lil_img[i].append(TRAIL if check_all_pix(img) else NO_TRAIL)
 
-    human_readable_display(lil_img)
+    human_readable_display_h(lil_img)
     print("------------------------------------------")
     check_near_trail(lil_img)
-    human_readable_display(lil_img)
-
-
-def main():
-    divide_image("./map_test.png")
-
-
-if __name__ == "__main__":
-    main()
+    human_readable_display_h(lil_img)
+    return lil_img

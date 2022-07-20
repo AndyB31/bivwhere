@@ -1,0 +1,30 @@
+swagger: "2.0"
+
+info:
+  title: Swagger Template
+  description: A Template API
+  version: "0.1"
+
+paths:
+  /analyse_coordinates:
+    get:
+      operationId: app.core.analyse_coords
+      summary: Endpoint to receive coordinates and return bivouac zone
+      parameters:
+      - in: query
+        name: e
+        type: string
+        description: E coordinate
+      - in: query
+        name: n
+        type: string
+        description: N coordinate
+      produces:
+      - text/plain
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              type: integer
