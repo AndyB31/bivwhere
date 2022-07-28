@@ -5,7 +5,7 @@ Do you want to find somewhere to camp ? Biv'where is here !
 
 First build the docker image
 
-```docker build -t bivwhere ./back_end/Dockerfile```
+```docker build -t bivwhere -f ./back_end/Dockerfile .```
 
 Then run the docker image
 
